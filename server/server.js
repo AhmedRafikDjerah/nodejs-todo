@@ -71,7 +71,7 @@ app.post('/users', (req, res) => {
 
 
 app.listen(port, () => {
-    console.log('Connected');
+    console.log(`Connected on port ${port}`);
 })
 
 module.exports = {
