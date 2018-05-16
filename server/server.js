@@ -5,6 +5,8 @@ const {mongoose} = require('./db/mongoose');
 const {Todo} = require('./db/models/todo');
 const {User} = require('./db/models/user');
 
+
+const port = process.env.PORT || 3000;
 const app = express();
 
 app.use(bodyParse.json());
@@ -68,7 +70,7 @@ app.post('/users', (req, res) => {
 
 
 
-app.listen(3000, () => {
+app.listen(port, () => {
     console.log('Connected');
 })
 
