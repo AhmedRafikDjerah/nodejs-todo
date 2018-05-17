@@ -70,6 +70,39 @@ describe('POST /todos', () => {
 });
 
 
+describe('DELETE /todos/:id', () => {
+    it("Should delete a Todo", (done) => {
+        request(app)
+            .delete(`/todos/${todos[0]._id.toHexString()}`)
+            .expect(200)
+            .expect(res => {
+                expect(new ObjectID(res.body._id)).toEqual(todos[0]._id);
+            })
+            .end((err, res) => {
+                if(err) {
+                    return done(err);
+                }
+
+                Todo.find().then(todos => {
+                    expect(todos.length).toBe(1);
+                    done();
+                }).catch(e => done(e))
+
+            });
+    });
+
+    it("Should not delete a Todo", done => {
+        request(app)
+            .delete('/todos/1234546789')
+            .expect(400)
+            .expect(res => {
+                expect(res.body).toEqual({});
+            })
+            .end(done);
+    });
+
+});
+
 describe('GET /todos', () => {
     it("Should get all the todos", (done) => {
         request(app)

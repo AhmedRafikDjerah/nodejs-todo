@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParse = require('body-parser');
-// const {ObjecID} = require('mongodb');
+const {ObjectID} = require('mongodb');
 const {mongoose} = require('./db/mongoose');
 const {Todo} = require('./db/models/todo');
 const {User} = require('./db/models/user');
@@ -50,6 +50,22 @@ app.get('/todos/:id', (req, res) => {
     
 });
 
+
+app.delete('/todos/:id', (req, res) => {
+    const id = req.params.id;
+    if(ObjectID.isValid(id)) {
+        Todo.findByIdAndRemove(id).then(doc => {
+            if(!doc) {
+                return res.status(204).send();
+            }
+    
+            res.status(200).send(doc);
+        }).catch(e => res.status(204).send(e));
+    }else {
+        return res.status(400).send();
+    }
+
+})
 
 
 
